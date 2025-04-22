@@ -9,13 +9,19 @@ translator = Translator()
 
 # Function to detect language and translate text to English
 def translate_to_english(text):
-    if not text:  # Handle empty cells
+    if not text or pd.isna(text):  # Handle empty cells or NaN
         return text
-    detected_language = translator.detect(text).lang
-    if detected_language != 'en':
-        translated = translator.translate(text, src=detected_language, dest='en')
-        return translated.text
-    return text  # Return original if it's already in English
+    try:
+        detected = translator.detect(text)
+        lang = detected.lang
+        if lang and lang != 'en':
+            translated = translator.translate(text, src=lang, dest='en')
+            return translated.text
+    except Exception as e:
+        print(f"Translation error for '{text}': {e}")
+        return text  # fallback: return original text if anything breaks
+    return text
+
 
 @app.route('/')
 def index():
