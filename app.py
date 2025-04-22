@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 from googletrans import Translator
-from flask import Flask, request, jsonify, send_file
+from flask import Flask, request, jsonify, send_file, render_template
 
 # Initialize Flask app and translator
 app = Flask(__name__)
@@ -19,7 +19,7 @@ def translate_to_english(text):
 
 @app.route('/')
 def index():
-    return 'Translation Service is running!'
+    return render_template('index.html')
 
 @app.route('/translate', methods=['POST'])
 def translate_excel():
