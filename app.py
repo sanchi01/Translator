@@ -39,7 +39,8 @@ def translate_excel():
 
     # Read the uploaded Excel file
     try:
-        df = pd.read_excel(file)
+        df = pd.read_excel(file, engine='openpyxl')
+
     except Exception as e:
         return jsonify({'error': f'Error reading file: {str(e)}'}), 500
 
